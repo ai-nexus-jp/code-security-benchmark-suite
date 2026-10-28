@@ -52,3 +52,4 @@ def get_user_profile_protected_by_decorator(user_id: int) -> Optional[Dict[str, 
         return None
     finally:
         session.close()
+

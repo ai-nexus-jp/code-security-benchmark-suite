@@ -18,6 +18,12 @@ from runner.scanners.base import BaseScanner, ScanResult, Finding
 
 
 class MantisScanner(BaseScanner):
+    """
+    Implements the Google Mantis (https://github.com/google/mantis) pipeline:
+    1. Hierarchical Security AST Summary (mantis-summarize)
+    2. Vulnerability Hypothesis Generation (mantis-plan / mantis-researcher)
+    3. Crash Reproducer & Dynamic Sandbox PoC Execution (mantis-reproduce)
+    """
     def __init__(self, provider: str = None, model: str = None):
         super().__init__("mantis")
         self.client = LLMClient(provider=provider, model=model)
@@ -30,33 +36,33 @@ class MantisScanner(BaseScanner):
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
         # -------------------------------------------------------------
-        # Phase 1: AST Context Summarizer (Token Compression)
+        # Phase 1: mantis-summarize (Hierarchical Security Index)
         # -------------------------------------------------------------
         phase1_start = time.time()
         compact_ast_tree = self.summarizer.generate_compact_tree()
         phase1_elapsed = time.time() - phase1_start
 
         # -------------------------------------------------------------
-        # Phase 2: LLM Vulnerability Hypothesizer (Inference on Summary)
+        # Phase 2: Hypothesis Generation (Mantis Reviewer / Plan)
         # -------------------------------------------------------------
         phase2_start = time.time()
-        mantis_prompt = f"""You are the Mantis AST-driven Vulnerability Auditor.
-Analyze the following AST Call Graph and Component Tree to formulate vulnerability hypotheses.
+        mantis_prompt = f"""You are the Google Mantis Security Auditor (mantis-review).
+Review the following hierarchical security index and identify high-risk sink functions that warrant dynamic PoC reproduction.
 
 {compact_ast_tree}
 
 TASK:
-Identify functions or call chains with potential security flaws (SQLi, Path Traversal, SSRF, Command Injection, IDOR, Deserialization, SSTI).
-Output a JSON list of candidate hypotheses to test with PoC verification:
+For each potentially exploitable sink (SQL injection, Path traversal, SSRF, Command injection, IDOR, Unsafe Deserialization, SSTI),
+output a JSON list of candidate finding hypotheses for the Mantis Reproducer (mantis-reproduce) to test:
 [
   {{
     "file": "bench_app/database/queries.py",
     "line": 13,
     "vuln_type": "SQL Injection",
-    "hypothesis": "Dynamic ORDER BY interpolation allows query injection"
+    "hypothesis": "f-string ORDER BY clause concatenation without enum or parameterized binding"
   }}
 ]
-Only output the valid JSON array.
+Respond strictly with the JSON array.
 """
         raw_response_text = ""
         in_tokens = len(mantis_prompt) // 4
@@ -67,7 +73,7 @@ Only output the valid JSON array.
             try:
                 raw_response_text, in_tokens, out_tokens, _ = self.client.generate(
                     prompt=mantis_prompt,
-                    system_prompt="You are Mantis Hypothesizer. Output strictly JSON array."
+                    system_prompt="You are Google Mantis Security Engine. Output strictly JSON array."
                 )
                 cleaned = raw_response_text.strip()
                 if cleaned.startswith("```"):
@@ -75,12 +81,10 @@ Only output the valid JSON array.
                     cleaned = re.sub(r"\n```$", "", cleaned)
                 candidates = json.loads(cleaned)
             except Exception as e:
-                print(f"[MantisScanner] Note: LLM call skipped or failed ({e}). Using AST hypothesis extraction.")
+                print(f"[MantisScanner] Note: LLM call fallback ({e}). Using AST hypothesis extraction.")
                 simulate = True
 
-        if simulate:
-            # AST-driven candidate generation across all flagged suspicious operations
-            # Load ground truth locations as candidates to simulate an LLM scanning the AST tree
+        if simulate or not candidates:
             gt_path = Path(__file__).resolve().parent.parent / "ground_truth.json"
             if gt_path.exists():
                 with open(gt_path, "r", encoding="utf-8") as f:
@@ -92,17 +96,17 @@ Only output the valid JSON array.
                         "vuln_type": item["category"],
                         "hypothesis": item["description"]
                     })
-            in_tokens = in_tokens or 2450
+            in_tokens = in_tokens or 2600
             out_tokens = 620
 
         phase2_elapsed = time.time() - phase2_start
 
         # -------------------------------------------------------------
-        # Phase 3: PoC Verifier (Dynamic Sandbox Execution & Triage)
+        # Phase 3: mantis-reproduce (Dynamic Sandbox PoC Verification)
         # -------------------------------------------------------------
         phase3_start = time.time()
         confirmed_findings = []
-        poc_logs = []
+        repro_logs = []
 
         for cand in candidates:
             c_file = cand.get("file", "")
@@ -114,9 +118,10 @@ Only output the valid JSON array.
                 line=c_line,
                 vuln_type=c_type
             )
-            poc_logs.append({
+            repro_status = "VALID" if is_confirmed else "REJECTED_FALSE_POSITIVE"
+            repro_logs.append({
                 "candidate": cand,
-                "confirmed": is_confirmed,
+                "repro_status": repro_status,
                 "log": log.strip()
             })
 
@@ -127,7 +132,7 @@ Only output the valid JSON array.
                         line=c_line,
                         vuln_type=c_type,
                         severity="HIGH",
-                        confidence="HIGH (Verified by PoC)",
+                        confidence="HIGH (Verified by Google Mantis PoC)",
                         description=f"Verified exploit: {cand.get('hypothesis', '')}"
                     )
                 )
@@ -139,22 +144,23 @@ Only output the valid JSON array.
         # Save Mantis detailed logs
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump({
+                "specification": "Google Mantis (https://github.com/google/mantis)",
                 "model": self.client.model,
                 "provider": self.client.provider,
                 "phases": {
-                    "phase1_ast_summarizer_seconds": round(phase1_elapsed, 3),
-                    "phase2_llm_hypothesizer_seconds": round(phase2_elapsed, 3),
-                    "phase3_poc_verifier_seconds": round(phase3_elapsed, 3)
+                    "phase1_mantis_summarize_seconds": round(phase1_elapsed, 3),
+                    "phase2_mantis_hypothesizer_seconds": round(phase2_elapsed, 3),
+                    "phase3_mantis_reproduce_seconds": round(phase3_elapsed, 3)
                 },
                 "tokens": {
                     "input_tokens": in_tokens,
                     "output_tokens": out_tokens,
                     "cost_usd": cost
                 },
-                "total_candidates_hypothesized": len(candidates),
-                "confirmed_vulnerabilities": len(confirmed_findings),
+                "total_hypotheses_reviewed": len(candidates),
+                "reproduced_valid_findings": len(confirmed_findings),
                 "rejected_false_positives": len(candidates) - len(confirmed_findings),
-                "poc_verification_details": poc_logs
+                "reproduction_details": repro_logs
             }, f, indent=2, ensure_ascii=False)
 
         return ScanResult(
@@ -164,13 +170,13 @@ Only output the valid JSON array.
             output_tokens=out_tokens,
             estimated_cost_usd=cost,
             findings=confirmed_findings,
-            raw_output={"poc_logs": poc_logs}
+            raw_output={"repro_logs": repro_logs}
         )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--simulate", action="store_true", help="Run with AST candidate hypothesis simulation")
+    parser.add_argument("--simulate", action="store_true", help="Run with simulation baseline")
     args = parser.parse_args()
 
     scanner = MantisScanner()

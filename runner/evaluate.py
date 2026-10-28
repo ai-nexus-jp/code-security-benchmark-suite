@@ -44,7 +44,7 @@ def evaluate_scanner(gt_items: List[Dict[str, Any]], scan_data: Dict[str, Any]) 
         t_file = gt["target_file"]
         t_line = gt["target_line"]
 
-        # Check if any finding matches target_file and target_line within +- 5 lines
+        # Check if any finding matches target_file and target_line within +- 8 lines (accounting for function def vs sink offset)
         matched = False
         for f in findings:
             f_file = f.get("file", "")
@@ -52,7 +52,7 @@ def evaluate_scanner(gt_items: List[Dict[str, Any]], scan_data: Dict[str, Any]) 
 
             # Normalize paths
             if Path(t_file).name == Path(f_file).name or t_file in f_file or f_file in t_file:
-                if abs(f_line - t_line) <= 5:
+                if abs(f_line - t_line) <= 8:
                     matched = True
                     break
 
@@ -177,3 +177,4 @@ def generate_reports():
 
 if __name__ == "__main__":
     generate_reports()
+

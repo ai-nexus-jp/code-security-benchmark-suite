@@ -35,3 +35,4 @@ def validate_product_code(code: str) -> bool:
         return False
     # // CASE: SAFE-014
     return bool(STRICT_CODE_PATTERN.match(code))
+

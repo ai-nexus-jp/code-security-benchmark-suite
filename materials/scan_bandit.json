@@ -1,0 +1,464 @@
+{
+  "scanner_name": "bandit",
+  "execution_time_seconds": 0.255,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "estimated_cost_usd": 0.0,
+  "findings": [
+    {
+      "file": "bench_app/app.py",
+      "line": 55,
+      "vuln_type": "hardcoded_bind_all_interfaces",
+      "severity": "MEDIUM",
+      "confidence": "MEDIUM",
+      "description": "Possible binding to all interfaces."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 22,
+      "vuln_type": "blacklist",
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "description": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 35,
+      "vuln_type": "blacklist",
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "description": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 47,
+      "vuln_type": "subprocess_popen_with_shell_equals_true",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "subprocess call with shell=True identified, security issue."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 58,
+      "vuln_type": "start_process_with_a_shell",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "Starting a process with a shell, possible injection detected, security issue."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 66,
+      "vuln_type": "blacklist",
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "description": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 76,
+      "vuln_type": "subprocess_popen_with_shell_equals_true",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "subprocess call with shell=True identified, security issue."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 110,
+      "vuln_type": "blacklist",
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "description": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 126,
+      "vuln_type": "blacklist",
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "description": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected."
+    }
+  ],
+  "raw_output": {
+    "errors": [],
+    "generated_at": "2026-10-28T04:10:54Z",
+    "metrics": {
+      "_totals": {
+        "CONFIDENCE.HIGH": 22,
+        "CONFIDENCE.LOW": 6,
+        "CONFIDENCE.MEDIUM": 2,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 3,
+        "SEVERITY.LOW": 15,
+        "SEVERITY.MEDIUM": 12,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 436,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/__init__.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 0,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/app.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 1,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 1,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 36,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/config.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 11,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/database/__init__.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 0,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/database/connection.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 28,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/database/queries.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 6,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 6,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 91,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/services/__init__.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 0,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/services/auth_service.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 44,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/services/network_service.py": {
+        "CONFIDENCE.HIGH": 11,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 3,
+        "SEVERITY.LOW": 3,
+        "SEVERITY.MEDIUM": 5,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 94,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/tests/__init__.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 0,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/tests/test_fixtures.py": {
+        "CONFIDENCE.HIGH": 10,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 1,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 11,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 32,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/utils/__init__.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 0,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/utils/file_handler.py": {
+        "CONFIDENCE.HIGH": 1,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 1,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 74,
+        "nosec": 0,
+        "skipped_tests": 0
+      },
+      "bench_app/utils/validators.py": {
+        "CONFIDENCE.HIGH": 0,
+        "CONFIDENCE.LOW": 0,
+        "CONFIDENCE.MEDIUM": 0,
+        "CONFIDENCE.UNDEFINED": 0,
+        "SEVERITY.HIGH": 0,
+        "SEVERITY.LOW": 0,
+        "SEVERITY.MEDIUM": 0,
+        "SEVERITY.UNDEFINED": 0,
+        "loc": 26,
+        "nosec": 0,
+        "skipped_tests": 0
+      }
+    },
+    "results": [
+      {
+        "code": "54 if __name__ == \"__main__\":\n55     app.run(host=\"0.0.0.0\", port=5000, debug=False)\n",
+        "col_offset": 17,
+        "end_col_offset": 26,
+        "filename": "bench_app/app.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 55,
+        "line_range": [
+          55
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "21     req = urllib.request.Request(target_url, headers={\"User-Agent\": \"BenchAppBot/1.0\"})\n22     with urllib.request.urlopen(req, timeout=5) as resp:\n23         return resp.read().decode(\"utf-8\", errors=\"ignore\")\n",
+        "col_offset": 9,
+        "end_col_offset": 47,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 22,
+          "link": "https://cwe.mitre.org/data/definitions/22.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 22,
+        "line_range": [
+          22
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "34     # // CASE: VULN-010\n35     with urllib.request.urlopen(webhook_url, timeout=5) as response:\n36         return response.read().decode(\"utf-8\", errors=\"ignore\")\n",
+        "col_offset": 9,
+        "end_col_offset": 55,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 22,
+          "link": "https://cwe.mitre.org/data/definitions/22.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 35,
+        "line_range": [
+          35
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "46     # // CASE: VULN-011\n47     proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n48     stdout, stderr = proc.communicate(timeout=5)\n",
+        "col_offset": 11,
+        "end_col_offset": 92,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 78,
+          "link": "https://cwe.mitre.org/data/definitions/78.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "subprocess call with shell=True identified, security issue.",
+        "line_number": 47,
+        "line_range": [
+          47
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b602_subprocess_popen_with_shell_equals_true.html",
+        "test_id": "B602",
+        "test_name": "subprocess_popen_with_shell_equals_true"
+      },
+      {
+        "code": "57     # // CASE: VULN-012\n58     return os.system(f\"echo diagnostic_run: {param}\")\n59 \n",
+        "col_offset": 11,
+        "end_col_offset": 53,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 78,
+          "link": "https://cwe.mitre.org/data/definitions/78.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Starting a process with a shell, possible injection detected, security issue.",
+        "line_number": 58,
+        "line_range": [
+          58
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b605_start_process_with_a_shell.html",
+        "test_id": "B605",
+        "test_name": "start_process_with_a_shell"
+      },
+      {
+        "code": "65     # // CASE: VULN-014\n66     return pickle.loads(raw_payload)\n67 \n",
+        "col_offset": 11,
+        "end_col_offset": 36,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 502,
+          "link": "https://cwe.mitre.org/data/definitions/502.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
+        "line_number": 66,
+        "line_range": [
+          66
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b301-pickle",
+        "test_id": "B301",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "75     cmd = f\"ping -c 1 {safe_host}\"\n76     proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n77     stdout, _ = proc.communicate(timeout=5)\n",
+        "col_offset": 11,
+        "end_col_offset": 92,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 78,
+          "link": "https://cwe.mitre.org/data/definitions/78.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "subprocess call with shell=True identified, security issue.",
+        "line_number": 76,
+        "line_range": [
+          76
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b602_subprocess_popen_with_shell_equals_true.html",
+        "test_id": "B602",
+        "test_name": "subprocess_popen_with_shell_equals_true"
+      },
+      {
+        "code": "109     req = urllib.request.Request(target_url, headers={\"User-Agent\": \"SafeFetcher/1.0\"})\n110     with urllib.request.urlopen(req, timeout=5) as resp:\n111         return resp.read().decode(\"utf-8\", errors=\"ignore\")\n",
+        "col_offset": 9,
+        "end_col_offset": 47,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 22,
+          "link": "https://cwe.mitre.org/data/definitions/22.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 110,
+        "line_range": [
+          110
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "125     # // CASE: SAFE-008\n126     with urllib.request.urlopen(target_url, timeout=5) as resp:\n127         return resp.read().decode(\"utf-8\", errors=\"ignore\")\n",
+        "col_offset": 9,
+        "end_col_offset": 54,
+        "filename": "bench_app/services/network_service.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 22,
+          "link": "https://cwe.mitre.org/data/definitions/22.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 126,
+        "line_range": [
+          126
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      }
+    ]
+  }
+}

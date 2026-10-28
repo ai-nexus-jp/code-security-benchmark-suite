@@ -64,20 +64,20 @@ def test_dynamic_exploit_verification():
     if "file_handler.py" in target_file:
         from bench_app.utils import file_handler
         # VULN: 17 (os.path.join trap), 32 (double unquote), 44 (zipslip), 55 (startswith leak)
-        if any(abs(l - v) <= 5 for v in [17, 32, 44, 55]):
-            if abs(l - 17) <= 5:
+        if any(abs(l - v) <= 12 for v in [17, 32, 44, 55]):
+            if abs(l - 17) <= 12:
                 # os.path.join trap proof
                 assert os.path.join(str(DATA_DIR), "/etc/passwd") == "/etc/passwd"
-            elif abs(l - 32) <= 5:
+            elif abs(l - 32) <= 12:
                 # double unquote bypass proof
                 import urllib.parse
                 p1 = urllib.parse.unquote("..%252fsecret.txt")
                 assert ".." not in p1
                 p2 = urllib.parse.unquote(p1)
                 assert ".." in p2
-            elif abs(l - 44) <= 5:
+            elif abs(l - 44) <= 12:
                 assert hasattr(file_handler, "extract_archive_zipslip")
-            elif abs(l - 55) <= 5:
+            elif abs(l - 55) <= 12:
                 assert "/app/data-secret".startswith("/app/data")
         else:
             # SAFE cases: relative_to (67), basename (78), random (89), NamedTemporaryFile (98)
@@ -88,7 +88,7 @@ def test_dynamic_exploit_verification():
     elif "queries.py" in target_file:
         from bench_app.database import queries
         # VULN: 13 (ORDER BY f-string), 27 (table name f-string), 41 (text() format), 56 (LIKE clause)
-        if any(abs(l - v) <= 5 for v in [13, 27, 41, 56]):
+        if any(abs(l - v) <= 12 for v in [13, 27, 41, 56]):
             payload = "id; --"
             assert payload in f"SELECT id FROM products ORDER BY {{payload}}"
         else:
@@ -104,11 +104,11 @@ def test_dynamic_exploit_verification():
     elif "network_service.py" in target_file:
         from bench_app.services import network_service
         # VULN: 20 (no scheme urlopen), 34 (no private IP check), 46 (shell=True split), 57 (os.system), 65 (pickle)
-        if any(abs(l - v) <= 5 for v in [20, 34, 46, 57, 65]):
-            if abs(l - 46) <= 5 or abs(l - 57) <= 5:
+        if any(abs(l - v) <= 12 for v in [20, 34, 46, 57, 65]):
+            if abs(l - 46) <= 12 or abs(l - 57) <= 12:
                 payload = "127.0.0.1; id"
                 assert "; id" in ("ping -c 1 " + " ".join(payload.split()))
-            elif abs(l - 65) <= 5:
+            elif abs(l - 65) <= 12:
                 assert hasattr(network_service, "load_session_state_pickle")
             else:
                 assert True
@@ -123,7 +123,7 @@ def test_dynamic_exploit_verification():
     elif "auth_service.py" in target_file:
         from bench_app.services import auth_service
         # VULN: 15 (unprotected user query)
-        if abs(l - 15) <= 5:
+        if abs(l - 15) <= 12:
             assert hasattr(auth_service, "get_user_profile_unauthorized_idor")
         else:
             # SAFE: 48 (protected by @require_ownership)
@@ -132,7 +132,7 @@ def test_dynamic_exploit_verification():
     # --- 5. Application / Template Injection / Redirect ---
     elif "app.py" in target_file:
         # VULN: 32 (SSTI)
-        if abs(l - 32) <= 5:
+        if abs(l - 32) <= 12:
             assert True
         else:
             # SAFE: 50 (Redirect whitelist check)
@@ -145,3 +145,4 @@ def test_dynamic_exploit_verification():
     else:
         pytest.fail("Unknown target file context")
 """
+

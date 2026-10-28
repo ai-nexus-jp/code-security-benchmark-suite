@@ -46,3 +46,4 @@ def test_app_index():
     resp = client.get("/")
     assert resp.status_code == 200
     assert resp.json["status"] == "running"
+

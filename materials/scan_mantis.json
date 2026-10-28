@@ -1,0 +1,295 @@
+{
+  "scanner_name": "mantis",
+  "execution_time_seconds": 24.895,
+  "input_tokens": 1543,
+  "output_tokens": 1243,
+  "estimated_cost_usd": 0.016287,
+  "findings": [
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 7,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: Attacker-controlled sort_col may be interpolated into an ORDER BY clause before session.execute(text(query)); test whether arbitrary SQL expressions survive validation."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 21,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: Attacker-controlled tenant_table may be concatenated into a SQL identifier position without a strict table allowlist, allowing query manipulation."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 35,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: The username may be interpolated into SQL before sqlalchemy.text is called; text() alone does not parameterize interpolated input."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 49,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: The keyword may be concatenated into a raw LIKE predicate, permitting quote breakout and SQL manipulation. Verify SQL injection separately from wildcard-only search expansion."
+    },
+    {
+      "file": "bench_app/utils/file_handler.py",
+      "line": 12,
+      "vuln_type": "Path Traversal",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: An absolute filename may cause os.path.join to discard the intended storage directory, allowing reads outside the authorized root."
+    },
+    {
+      "file": "bench_app/utils/file_handler.py",
+      "line": 23,
+      "vuln_type": "Path Traversal",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: Repeated URL decoding may introduce traversal components after path validation, allowing double-encoded input to escape the intended directory."
+    },
+    {
+      "file": "bench_app/utils/file_handler.py",
+      "line": 48,
+      "vuln_type": "Path Traversal",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: String-based startswith containment checks may accept a sibling directory whose name shares the authorized directory prefix, permitting access outside scoped storage."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 14,
+      "vuln_type": "SSRF",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: A user-controlled URL passed to urllib.request.urlopen without a scheme allowlist may permit unintended schemes such as file URLs or requests to internal services."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 26,
+      "vuln_type": "SSRF",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: A user-controlled webhook URL may reach loopback, private, or link-local addresses because destination IP restrictions are absent."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 39,
+      "vuln_type": "Command Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: Splitting host_input and rejoining it before subprocess.Popen may preserve shell metacharacters; if shell execution is enabled, attacker input may execute additional commands."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 52,
+      "vuln_type": "Command Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: The diagnostic parameter may be interpolated into a command passed to os.system without effective shell escaping, allowing additional command execution."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 61,
+      "vuln_type": "Unsafe Deserialization",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: Attacker-controlled raw_payload may reach pickle.loads without a trusted provenance boundary, permitting code execution during deserialization."
+    },
+    {
+      "file": "bench_app/services/auth_service.py",
+      "line": 8,
+      "vuln_type": "IDOR",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: The profile lookup may use requested_user_id without verifying ownership or authorization, allowing one user to retrieve another user's profile."
+    },
+    {
+      "file": "bench_app/app.py",
+      "line": 26,
+      "vuln_type": "SSTI",
+      "severity": "HIGH",
+      "confidence": "HIGH (Verified by Google Mantis PoC)",
+      "description": "Verified exploit: Request-controlled preview content may become template source passed to render_template_string rather than a template variable, allowing evaluation of attacker-supplied Jinja expressions."
+    }
+  ],
+  "raw_output": {
+    "repro_logs": [
+      {
+        "candidate": {
+          "file": "bench_app/database/queries.py",
+          "line": 7,
+          "vuln_type": "SQL Injection",
+          "hypothesis": "Attacker-controlled sort_col may be interpolated into an ORDER BY clause before session.execute(text(query)); test whether arbitrary SQL expressions survive validation."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.17s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/database/queries.py",
+          "line": 21,
+          "vuln_type": "SQL Injection",
+          "hypothesis": "Attacker-controlled tenant_table may be concatenated into a SQL identifier position without a strict table allowlist, allowing query manipulation."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.17s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/database/queries.py",
+          "line": 35,
+          "vuln_type": "SQL Injection",
+          "hypothesis": "The username may be interpolated into SQL before sqlalchemy.text is called; text() alone does not parameterize interpolated input."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.19s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/database/queries.py",
+          "line": 49,
+          "vuln_type": "SQL Injection",
+          "hypothesis": "The keyword may be concatenated into a raw LIKE predicate, permitting quote breakout and SQL manipulation. Verify SQL injection separately from wildcard-only search expansion."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.18s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/utils/file_handler.py",
+          "line": 12,
+          "vuln_type": "Path Traversal",
+          "hypothesis": "An absolute filename may cause os.path.join to discard the intended storage directory, allowing reads outside the authorized root."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/utils/file_handler.py",
+          "line": 23,
+          "vuln_type": "Path Traversal",
+          "hypothesis": "Repeated URL decoding may introduce traversal components after path validation, allowing double-encoded input to escape the intended directory."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/utils/file_handler.py",
+          "line": 38,
+          "vuln_type": "Path Traversal",
+          "hypothesis": "Archive entry names may escape the extraction directory through traversal or absolute paths if the extraction logic lacks effective destination containment checks."
+        },
+        "repro_status": "REJECTED_FALSE_POSITIVE",
+        "log": "F                                                                        [100%]\n=================================== FAILURES ===================================\n______________________ test_dynamic_exploit_verification _______________________\n/tmp/tmpcbrr0ji9_test_poc.py:25: in test_dynamic_exploit_verification\n    assert \"..\" not in p1\nE   AssertionError: assert '..' not in '..%2fsecret.txt'\nE     \nE     '..' is contained here:\nE       ..%2fsecret.txt\nE     ? ++\n=========================== short test summary info ============================\nFAILED ../../../../tmp/tmpcbrr0ji9_test_poc.py::test_dynamic_exploit_verification\n1 failed in 0.03s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/utils/file_handler.py",
+          "line": 48,
+          "vuln_type": "Path Traversal",
+          "hypothesis": "String-based startswith containment checks may accept a sibling directory whose name shares the authorized directory prefix, permitting access outside scoped storage."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 14,
+          "vuln_type": "SSRF",
+          "hypothesis": "A user-controlled URL passed to urllib.request.urlopen without a scheme allowlist may permit unintended schemes such as file URLs or requests to internal services."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 26,
+          "vuln_type": "SSRF",
+          "hypothesis": "A user-controlled webhook URL may reach loopback, private, or link-local addresses because destination IP restrictions are absent."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 91,
+          "vuln_type": "SSRF",
+          "hypothesis": "Private-IP rejection may validate only the initial destination or a preliminary DNS resolution; test whether redirects or resolution changes permit a request to a prohibited address."
+        },
+        "repro_status": "REJECTED_FALSE_POSITIVE",
+        "log": "F                                                                        [100%]\n=================================== FAILURES ===================================\n______________________ test_dynamic_exploit_verification _______________________\n/tmp/tmpluw27i5g_test_poc.py:70: in test_dynamic_exploit_verification\n    pytest.fail(\"Exploit prevented by strict sanitization or whitelist control\")\nE   Failed: Exploit prevented by strict sanitization or whitelist control\n=========================== short test summary info ============================\nFAILED ../../../../tmp/tmpluw27i5g_test_poc.py::test_dynamic_exploit_verification\n1 failed in 0.04s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 114,
+          "vuln_type": "SSRF",
+          "hypothesis": "Domain allowlisting may not constrain redirect destinations or resolved addresses; test whether an accepted domain can lead urlopen to an unauthorized internal destination."
+        },
+        "repro_status": "REJECTED_FALSE_POSITIVE",
+        "log": "F                                                                        [100%]\n=================================== FAILURES ===================================\n______________________ test_dynamic_exploit_verification _______________________\n/tmp/tmp698e5iz3_test_poc.py:70: in test_dynamic_exploit_verification\n    pytest.fail(\"Exploit prevented by strict sanitization or whitelist control\")\nE   Failed: Exploit prevented by strict sanitization or whitelist control\n=========================== short test summary info ============================\nFAILED ../../../../tmp/tmp698e5iz3_test_poc.py::test_dynamic_exploit_verification\n1 failed in 0.04s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 39,
+          "vuln_type": "Command Injection",
+          "hypothesis": "Splitting host_input and rejoining it before subprocess.Popen may preserve shell metacharacters; if shell execution is enabled, attacker input may execute additional commands."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 52,
+          "vuln_type": "Command Injection",
+          "hypothesis": "The diagnostic parameter may be interpolated into a command passed to os.system without effective shell escaping, allowing additional command execution."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/network_service.py",
+          "line": 61,
+          "vuln_type": "Unsafe Deserialization",
+          "hypothesis": "Attacker-controlled raw_payload may reach pickle.loads without a trusted provenance boundary, permitting code execution during deserialization."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/services/auth_service.py",
+          "line": 8,
+          "vuln_type": "IDOR",
+          "hypothesis": "The profile lookup may use requested_user_id without verifying ownership or authorization, allowing one user to retrieve another user's profile."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.27s"
+      },
+      {
+        "candidate": {
+          "file": "bench_app/app.py",
+          "line": 26,
+          "vuln_type": "SSTI",
+          "hypothesis": "Request-controlled preview content may become template source passed to render_template_string rather than a template variable, allowing evaluation of attacker-supplied Jinja expressions."
+        },
+        "repro_status": "VALID",
+        "log": ".                                                                        [100%]\n1 passed in 0.02s"
+      }
+    ]
+  }
+}

@@ -159,3 +159,4 @@ if __name__ == "__main__":
     result = scanner.scan("bench_app", simulate=args.simulate)
     scanner.save_output(result, "materials/scan_raw_llm.json")
     print(f"[RawLLM] Scan complete. Found {len(result.findings)} issues in {result.execution_time_seconds}s (Tokens: {result.input_tokens}/{result.output_tokens}, Cost: ${result.estimated_cost_usd})")
+

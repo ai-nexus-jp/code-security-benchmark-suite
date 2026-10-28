@@ -125,3 +125,4 @@ def fetch_from_whitelisted_domain_only(target_url: str) -> str:
     # // CASE: SAFE-008
     with urllib.request.urlopen(target_url, timeout=5) as resp:
         return resp.read().decode("utf-8", errors="ignore")
+

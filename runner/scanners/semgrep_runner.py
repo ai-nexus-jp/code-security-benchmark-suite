@@ -91,3 +91,4 @@ if __name__ == "__main__":
     result = scanner.scan("bench_app", timeout=5)
     scanner.save_output(result, "materials/scan_semgrep.json")
     print(f"[Semgrep] Scan complete. Found {len(result.findings)} issues in {result.execution_time_seconds}s")
+

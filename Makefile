@@ -31,3 +31,4 @@ run-benchmark:
 
 clean:
 	rm -f materials/*.json materials/*.csv materials/*.md
+

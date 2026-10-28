@@ -99,3 +99,4 @@ def create_safe_scratch_buffer(data: bytes) -> str:
     with tempfile.NamedTemporaryFile(mode="w+b", delete=False) as tmp:
         tmp.write(data)
         return tmp.name
+

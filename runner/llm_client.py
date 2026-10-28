@@ -53,13 +53,27 @@ class LLMClient:
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
 
-            response = client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=config.LLM_TEMPERATURE
-            )
+            kwargs = {
+                "model": self.model,
+                "messages": messages,
+            }
+            # Certain reasoning or new models only allow default temperature or reject 0.0
+            if "sol" not in self.model.lower() and "o1" not in self.model.lower() and "o3" not in self.model.lower():
+                kwargs["temperature"] = config.LLM_TEMPERATURE
+
+            try:
+                response = client.chat.completions.create(**kwargs)
+            except Exception as exc:
+                # If temperature failed, retry without explicit temperature
+                if "temperature" in str(exc).lower():
+                    kwargs.pop("temperature", None)
+                    response = client.chat.completions.create(**kwargs)
+                else:
+                    raise exc
+
             latency = time.time() - start_time
             response_text = response.choices[0].message.content or ""
             input_tokens = response.usage.prompt_tokens if response.usage else len(prompt) // 4
             output_tokens = response.usage.completion_tokens if response.usage else len(response_text) // 4
             return response_text, input_tokens, output_tokens, round(latency, 3)
+

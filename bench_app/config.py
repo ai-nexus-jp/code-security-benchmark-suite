@@ -13,3 +13,4 @@ SECRET_DIR.mkdir(parents=True, exist_ok=True)
 
 ALLOWED_HOSTS = ["example.com", "api.example.com", "myapp.internal.local"]
 DATABASE_URL = f"sqlite:///{BASE_DIR}/app.db"
+

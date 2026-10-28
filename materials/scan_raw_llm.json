@@ -1,0 +1,148 @@
+{
+  "scanner_name": "raw_llm",
+  "execution_time_seconds": 41.171,
+  "input_tokens": 7735,
+  "output_tokens": 2400,
+  "estimated_cost_usd": 0.043338,
+  "findings": [
+    {
+      "file": "bench_app/app.py",
+      "line": 33,
+      "vuln_type": "Server-Side Template Injection",
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "description": "The unauthenticated /render/preview endpoint passes the template query parameter directly to render_template_string as template source. Attackers can execute Jinja expressions and potentially access Python objects to execute arbitrary code with application privileges. Render a fixed trusted template and pass user input only as template data."
+    },
+    {
+      "file": "bench_app/app.py",
+      "line": 34,
+      "vuln_type": "Reflected Cross-Site Scripting",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "The template query parameter can contain literal HTML and JavaScript, which render_template_string preserves as template markup. Returning the result as an HTML response permits reflected script execution in the application's origin. Jinja autoescaping of template variables does not sanitize attacker-controlled template source."
+    },
+    {
+      "file": "bench_app/utils/file_handler.py",
+      "line": 18,
+      "vuln_type": "Path Traversal",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "An absolute filename causes os.path.join to discard DATA_DIR, and relative traversal segments are also accepted. If an untrusted caller controls filename, this function reads arbitrary files accessible to the application. No HTTP route to this helper is present in the supplied code. Resolve the destination and enforce containment within DATA_DIR."
+    },
+    {
+      "file": "bench_app/utils/file_handler.py",
+      "line": 33,
+      "vuln_type": "Path Traversal",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "Traversal validation occurs before the second URL decoding step. For example, %252e%252e%252f becomes %2e%2e%2f during validation and ../ afterward. Absolute paths also bypass the '..' check and override DATA_DIR when joined. An untrusted caller could read files outside DATA_DIR; this helper is not currently routed. Decode before validation and enforce resolved-path containment."
+    },
+    {
+      "file": "bench_app/utils/file_handler.py",
+      "line": 56,
+      "vuln_type": "Path Traversal",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "raw_path is constructed with DATA_DIR as its literal prefix, so its startswith(DATA_DIR) check always succeeds. A value such as ../data-secret/secret.txt escapes the intended directory when the filesystem resolves it. This permits arbitrary readable-file disclosure if the currently unrouted helper receives attacker-controlled input. Resolve the path and verify structural containment."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 14,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "sort_col is interpolated directly into an executable ORDER BY clause. An untrusted caller can inject SQL expressions or subqueries, enabling inference of database contents or expensive queries. SQLAlchemy text() does not sanitize interpolated SQL. This helper has no HTTP caller in the supplied code. Map accepted sort keys to fixed column expressions."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 28,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "tenant_table is inserted directly into the FROM clause without identifier validation. A caller controlling this value can substitute tables, joins, subqueries, or comments and retrieve unintended data, including bypassing the appended predicate. This helper is not exposed by a supplied route. Select table identifiers through a fixed allowlist and enforce tenant authorization separately."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 42,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "username is interpolated inside a quoted SQL literal before text() is called. An input such as ' OR 1=1 -- changes the query predicate and returns other users' data. This is exploitable if an untrusted caller reaches the currently unrouted helper. Use a bound parameter rather than string interpolation."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 57,
+      "vuln_type": "SQL Injection",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "keyword is interpolated directly into a quoted LIKE expression. Quotes and SQL syntax can terminate the pattern and inject predicates or UNION queries; wrapping the result in text() provides no protection. No supplied route calls this helper. Bind the complete LIKE pattern as a query parameter."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 22,
+      "vuln_type": "Server-Side Request Forgery",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "target_url reaches urlopen without scheme or destination validation. If controlled by an untrusted caller, it can access internal HTTP services and use supported schemes such as file:// to read local files. This helper has no supplied HTTP caller. Restrict schemes and destinations and validate every redirect."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 35,
+      "vuln_type": "Server-Side Request Forgery",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "Restricting webhook_url to HTTP and HTTPS does not prevent requests to loopback, private networks, or link-local metadata addresses. urlopen also follows redirects without destination checks. If this currently unrouted helper receives untrusted URLs, it can disclose internal responses. Enforce destination restrictions for the initial connection and every redirect."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 47,
+      "vuln_type": "OS Command Injection",
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "description": "host_input is split and rejoined into a command executed with shell=True. Whitespace splitting does not neutralize semicolons, command substitution, or other shell syntax, allowing arbitrary command execution if the helper receives untrusted input. No supplied route invokes it. Use shell=False with an argument list and validate the host."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 58,
+      "vuln_type": "OS Command Injection",
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "description": "param is interpolated into an os.system command without quoting or validation. Shell metacharacters and substitutions permit arbitrary command execution with application privileges if an untrusted caller controls param. This helper is not currently routed. Avoid the shell and use a direct API or argument-list subprocess invocation."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 66,
+      "vuln_type": "Insecure Deserialization",
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "description": "pickle.loads can execute attacker-specified Python callables while deserializing a malicious payload. Passing untrusted session bytes to this helper would allow arbitrary code execution before any subsequent validation. No supplied route invokes it. Use a non-executable format such as JSON with schema validation for untrusted state."
+    },
+    {
+      "file": "bench_app/services/auth_service.py",
+      "line": 16,
+      "vuln_type": "Broken Access Control / IDOR",
+      "severity": "HIGH",
+      "confidence": "MEDIUM",
+      "description": "The helper retrieves a user's profile and email solely from requested_user_id without checking authentication, ownership, or other authorization. An untrusted caller able to choose this ID could enumerate other users' profiles. Unlike the protected helper, it has no ownership decorator. No route currently exposes this function, so remote exploitability is not established by the supplied code."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 110,
+      "vuln_type": "Server-Side Request Forgery",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "The private-IP check validates only one initial IPv4 DNS result. urlopen subsequently resolves the hostname again and follows redirects without revalidation. DNS rebinding, a different selected address, or a public URL redirecting to an internal address can bypass the check. This helper is currently unrouted. Validate every destination and bind connections to validated addresses."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 126,
+      "vuln_type": "Server-Side Request Forgery",
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "description": "The exact hostname allowlist applies only to the initial URL, while urlopen automatically follows redirects. If an allowed host provides an attacker-influenced redirect, the request can escape the allowlist and reach internal or arbitrary destinations. The supplied code does not establish such a redirect or expose this helper through a route. Disable redirects or enforce the destination policy on every hop."
+    }
+  ],
+  "raw_output": {
+    "raw_response": "[\n  {\n    \"file\": \"bench_app/app.py\",\n    \"line\": 33,\n    \"vuln_type\": \"Server-Side Template Injection\",\n    \"severity\": \"CRITICAL\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"The unauthenticated /render/preview endpoint passes the template query parameter directly to render_template_string as template source. Attackers can execute Jinja expressions and potentially access Python objects to execute arbitrary code with application privileges. Render a fixed trusted template and pass user input only as template data.\"\n  },\n  {\n    \"file\": \"bench_app/app.py\",\n    \"line\": 34,\n    \"vuln_type\": \"Reflected Cross-Site Scripting\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"The template query parameter can contain literal HTML and JavaScript, which render_template_string preserves as template markup. Returning the result as an HTML response permits reflected script execution in the application's origin. Jinja autoescaping of template variables does not sanitize attacker-controlled template source.\"\n  },\n  {\n    \"file\": \"bench_app/utils/file_handler.py\",\n    \"line\": 18,\n    \"vuln_type\": \"Path Traversal\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"An absolute filename causes os.path.join to discard DATA_DIR, and relative traversal segments are also accepted. If an untrusted caller controls filename, this function reads arbitrary files accessible to the application. No HTTP route to this helper is present in the supplied code. Resolve the destination and enforce containment within DATA_DIR.\"\n  },\n  {\n    \"file\": \"bench_app/utils/file_handler.py\",\n    \"line\": 33,\n    \"vuln_type\": \"Path Traversal\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"Traversal validation occurs before the second URL decoding step. For example, %252e%252e%252f becomes %2e%2e%2f during validation and ../ afterward. Absolute paths also bypass the '..' check and override DATA_DIR when joined. An untrusted caller could read files outside DATA_DIR; this helper is not currently routed. Decode before validation and enforce resolved-path containment.\"\n  },\n  {\n    \"file\": \"bench_app/utils/file_handler.py\",\n    \"line\": 56,\n    \"vuln_type\": \"Path Traversal\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"raw_path is constructed with DATA_DIR as its literal prefix, so its startswith(DATA_DIR) check always succeeds. A value such as ../data-secret/secret.txt escapes the intended directory when the filesystem resolves it. This permits arbitrary readable-file disclosure if the currently unrouted helper receives attacker-controlled input. Resolve the path and verify structural containment.\"\n  },\n  {\n    \"file\": \"bench_app/database/queries.py\",\n    \"line\": 14,\n    \"vuln_type\": \"SQL Injection\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"sort_col is interpolated directly into an executable ORDER BY clause. An untrusted caller can inject SQL expressions or subqueries, enabling inference of database contents or expensive queries. SQLAlchemy text() does not sanitize interpolated SQL. This helper has no HTTP caller in the supplied code. Map accepted sort keys to fixed column expressions.\"\n  },\n  {\n    \"file\": \"bench_app/database/queries.py\",\n    \"line\": 28,\n    \"vuln_type\": \"SQL Injection\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"tenant_table is inserted directly into the FROM clause without identifier validation. A caller controlling this value can substitute tables, joins, subqueries, or comments and retrieve unintended data, including bypassing the appended predicate. This helper is not exposed by a supplied route. Select table identifiers through a fixed allowlist and enforce tenant authorization separately.\"\n  },\n  {\n    \"file\": \"bench_app/database/queries.py\",\n    \"line\": 42,\n    \"vuln_type\": \"SQL Injection\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"username is interpolated inside a quoted SQL literal before text() is called. An input such as ' OR 1=1 -- changes the query predicate and returns other users' data. This is exploitable if an untrusted caller reaches the currently unrouted helper. Use a bound parameter rather than string interpolation.\"\n  },\n  {\n    \"file\": \"bench_app/database/queries.py\",\n    \"line\": 57,\n    \"vuln_type\": \"SQL Injection\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"keyword is interpolated directly into a quoted LIKE expression. Quotes and SQL syntax can terminate the pattern and inject predicates or UNION queries; wrapping the result in text() provides no protection. No supplied route calls this helper. Bind the complete LIKE pattern as a query parameter.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 22,\n    \"vuln_type\": \"Server-Side Request Forgery\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"target_url reaches urlopen without scheme or destination validation. If controlled by an untrusted caller, it can access internal HTTP services and use supported schemes such as file:// to read local files. This helper has no supplied HTTP caller. Restrict schemes and destinations and validate every redirect.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 35,\n    \"vuln_type\": \"Server-Side Request Forgery\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"Restricting webhook_url to HTTP and HTTPS does not prevent requests to loopback, private networks, or link-local metadata addresses. urlopen also follows redirects without destination checks. If this currently unrouted helper receives untrusted URLs, it can disclose internal responses. Enforce destination restrictions for the initial connection and every redirect.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 47,\n    \"vuln_type\": \"OS Command Injection\",\n    \"severity\": \"CRITICAL\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"host_input is split and rejoined into a command executed with shell=True. Whitespace splitting does not neutralize semicolons, command substitution, or other shell syntax, allowing arbitrary command execution if the helper receives untrusted input. No supplied route invokes it. Use shell=False with an argument list and validate the host.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 58,\n    \"vuln_type\": \"OS Command Injection\",\n    \"severity\": \"CRITICAL\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"param is interpolated into an os.system command without quoting or validation. Shell metacharacters and substitutions permit arbitrary command execution with application privileges if an untrusted caller controls param. This helper is not currently routed. Avoid the shell and use a direct API or argument-list subprocess invocation.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 66,\n    \"vuln_type\": \"Insecure Deserialization\",\n    \"severity\": \"CRITICAL\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"pickle.loads can execute attacker-specified Python callables while deserializing a malicious payload. Passing untrusted session bytes to this helper would allow arbitrary code execution before any subsequent validation. No supplied route invokes it. Use a non-executable format such as JSON with schema validation for untrusted state.\"\n  },\n  {\n    \"file\": \"bench_app/services/auth_service.py\",\n    \"line\": 16,\n    \"vuln_type\": \"Broken Access Control / IDOR\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"MEDIUM\",\n    \"description\": \"The helper retrieves a user's profile and email solely from requested_user_id without checking authentication, ownership, or other authorization. An untrusted caller able to choose this ID could enumerate other users' profiles. Unlike the protected helper, it has no ownership decorator. No route currently exposes this function, so remote exploitability is not established by the supplied code.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 110,\n    \"vuln_type\": \"Server-Side Request Forgery\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"The private-IP check validates only one initial IPv4 DNS result. urlopen subsequently resolves the hostname again and follows redirects without revalidation. DNS rebinding, a different selected address, or a public URL redirecting to an internal address can bypass the check. This helper is currently unrouted. Validate every destination and bind connections to validated addresses.\"\n  },\n  {\n    \"file\": \"bench_app/services/network_service.py\",\n    \"line\": 126,\n    \"vuln_type\": \"Server-Side Request Forgery\",\n    \"severity\": \"HIGH\",\n    \"confidence\": \"HIGH\",\n    \"description\": \"The exact hostname allowlist applies only to the initial URL, while urlopen automatically follows redirects. If an allowed host provides an attacker-influenced redirect, the request can escape the allowlist and reach internal or arbitrary destinations. The supplied code does not establish such a redirect or expose this helper through a route. Disable redirects or enforce the destination policy on every hop.\"\n  }\n]"
+  }
+}

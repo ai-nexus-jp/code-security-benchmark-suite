@@ -1,0 +1,1087 @@
+{
+  "scanner_name": "semgrep",
+  "execution_time_seconds": 5.012,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "estimated_cost_usd": 0.0,
+  "findings": [
+    {
+      "file": "bench_app/app.py",
+      "line": 33,
+      "vuln_type": "python.flask.security.audit.render-template-string.render-template-string",
+      "severity": "WARNING",
+      "confidence": "LOW",
+      "description": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks."
+    },
+    {
+      "file": "bench_app/app.py",
+      "line": 43,
+      "vuln_type": "python.flask.security.open-redirect.open-redirect",
+      "severity": "ERROR",
+      "confidence": "LOW",
+      "description": "Data from request is passed to redirect(). This is an open redirect and could be exploited. Consider using 'url_for()' to generate links to known locations. If you must use a URL to unknown pages, consider using 'urlparse()' or similar and checking if the 'netloc' property is the same as your site's host name. See the references for more information."
+    },
+    {
+      "file": "bench_app/app.py",
+      "line": 55,
+      "vuln_type": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "severity": "WARNING",
+      "confidence": "HIGH",
+      "description": "Running flask app with host 0.0.0.0 could expose the server publicly."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 15,
+      "vuln_type": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 29,
+      "vuln_type": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 42,
+      "vuln_type": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 58,
+      "vuln_type": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 74,
+      "vuln_type": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL."
+    },
+    {
+      "file": "bench_app/database/queries.py",
+      "line": 90,
+      "vuln_type": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 22,
+      "vuln_type": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING",
+      "confidence": "LOW",
+      "description": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 35,
+      "vuln_type": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING",
+      "confidence": "LOW",
+      "description": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 47,
+      "vuln_type": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "Found 'subprocess' function 'Popen' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 66,
+      "vuln_type": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "severity": "WARNING",
+      "confidence": "LOW",
+      "description": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 76,
+      "vuln_type": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "severity": "ERROR",
+      "confidence": "MEDIUM",
+      "description": "Found 'subprocess' function 'Popen' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 110,
+      "vuln_type": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING",
+      "confidence": "LOW",
+      "description": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead."
+    },
+    {
+      "file": "bench_app/services/network_service.py",
+      "line": 126,
+      "vuln_type": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "severity": "WARNING",
+      "confidence": "LOW",
+      "description": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead."
+    }
+  ],
+  "raw_output": {
+    "version": "1.182.1",
+    "results": [
+      {
+        "check_id": "python.flask.security.audit.render-template-string.render-template-string",
+        "path": "bench_app/app.py",
+        "start": {
+          "line": 33,
+          "col": 16,
+          "offset": 942
+        },
+        "end": {
+          "line": 33,
+          "col": 66,
+          "offset": 992
+        },
+        "extra": {
+          "message": "Found a template created with string formatting. This is susceptible to server-side template injection and cross-site scripting attacks.",
+          "metadata": {
+            "cwe": [
+              "CWE-96: Improper Neutralization of Directives in Statically Saved Code ('Static Code Injection')"
+            ],
+            "owasp": [
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "references": [
+              "https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2.html"
+            ],
+            "category": "security",
+            "technology": [
+              "flask"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "MEDIUM",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Code Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.flask.security.audit.render-template-string.render-template-string",
+            "shortlink": "https://sg.run/8yjE"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.flask.security.open-redirect.open-redirect",
+        "path": "bench_app/app.py",
+        "start": {
+          "line": 43,
+          "col": 5,
+          "offset": 1254
+        },
+        "end": {
+          "line": 51,
+          "col": 32,
+          "offset": 1611
+        },
+        "extra": {
+          "message": "Data from request is passed to redirect(). This is an open redirect and could be exploited. Consider using 'url_for()' to generate links to known locations. If you must use a URL to unknown pages, consider using 'urlparse()' or similar and checking if the 'netloc' property is the same as your site's host name. See the references for more information.",
+          "metadata": {
+            "cwe": [
+              "CWE-601: URL Redirection to Untrusted Site ('Open Redirect')"
+            ],
+            "owasp": [
+              "A01:2021 - Broken Access Control",
+              "A01:2025 - Broken Access Control"
+            ],
+            "references": [
+              "https://flask-login.readthedocs.io/en/latest/#login-example",
+              "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html#dangerous-url-redirect-example-1",
+              "https://docs.python.org/3/library/urllib.parse.html#url-parsing"
+            ],
+            "category": "security",
+            "technology": [
+              "flask"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "MEDIUM",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Open Redirect"
+            ],
+            "source": "https://semgrep.dev/r/python.flask.security.open-redirect.open-redirect",
+            "shortlink": "https://sg.run/kXe2"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+        "path": "bench_app/app.py",
+        "start": {
+          "line": 55,
+          "col": 5,
+          "offset": 1645
+        },
+        "end": {
+          "line": 55,
+          "col": 52,
+          "offset": 1692
+        },
+        "extra": {
+          "message": "Running flask app with host 0.0.0.0 could expose the server publicly.",
+          "metadata": {
+            "cwe": [
+              "CWE-668: Exposure of Resource to Wrong Sphere"
+            ],
+            "owasp": [
+              "A01:2021 - Broken Access Control",
+              "A01:2025 - Broken Access Control"
+            ],
+            "category": "security",
+            "technology": [
+              "flask"
+            ],
+            "references": [
+              "https://owasp.org/Top10/A01_2021-Broken_Access_Control"
+            ],
+            "subcategory": [
+              "vuln"
+            ],
+            "likelihood": "HIGH",
+            "impact": "MEDIUM",
+            "confidence": "HIGH",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Other"
+            ],
+            "source": "https://semgrep.dev/r/python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+            "shortlink": "https://sg.run/eLby"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+        "path": "bench_app/database/queries.py",
+        "start": {
+          "line": 15,
+          "col": 34,
+          "offset": 546
+        },
+        "end": {
+          "line": 15,
+          "col": 45,
+          "offset": 557
+        },
+        "extra": {
+          "message": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL.",
+          "metadata": {
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            ],
+            "category": "security",
+            "technology": [
+              "sqlalchemy"
+            ],
+            "confidence": "MEDIUM",
+            "references": [
+              "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "SQL Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+            "shortlink": "https://sg.run/yP1O"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+        "path": "bench_app/database/queries.py",
+        "start": {
+          "line": 29,
+          "col": 34,
+          "offset": 1017
+        },
+        "end": {
+          "line": 29,
+          "col": 45,
+          "offset": 1028
+        },
+        "extra": {
+          "message": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL.",
+          "metadata": {
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            ],
+            "category": "security",
+            "technology": [
+              "sqlalchemy"
+            ],
+            "confidence": "MEDIUM",
+            "references": [
+              "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "SQL Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+            "shortlink": "https://sg.run/yP1O"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+        "path": "bench_app/database/queries.py",
+        "start": {
+          "line": 42,
+          "col": 16,
+          "offset": 1407
+        },
+        "end": {
+          "line": 42,
+          "col": 92,
+          "offset": 1483
+        },
+        "extra": {
+          "message": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL.",
+          "metadata": {
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            ],
+            "category": "security",
+            "technology": [
+              "sqlalchemy"
+            ],
+            "confidence": "MEDIUM",
+            "references": [
+              "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "SQL Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+            "shortlink": "https://sg.run/yP1O"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+        "path": "bench_app/database/queries.py",
+        "start": {
+          "line": 58,
+          "col": 34,
+          "offset": 2064
+        },
+        "end": {
+          "line": 58,
+          "col": 47,
+          "offset": 2077
+        },
+        "extra": {
+          "message": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL.",
+          "metadata": {
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            ],
+            "category": "security",
+            "technology": [
+              "sqlalchemy"
+            ],
+            "confidence": "MEDIUM",
+            "references": [
+              "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "SQL Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+            "shortlink": "https://sg.run/yP1O"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+        "path": "bench_app/database/queries.py",
+        "start": {
+          "line": 74,
+          "col": 34,
+          "offset": 2720
+        },
+        "end": {
+          "line": 74,
+          "col": 45,
+          "offset": 2731
+        },
+        "extra": {
+          "message": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL.",
+          "metadata": {
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            ],
+            "category": "security",
+            "technology": [
+              "sqlalchemy"
+            ],
+            "confidence": "MEDIUM",
+            "references": [
+              "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "SQL Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+            "shortlink": "https://sg.run/yP1O"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+        "path": "bench_app/database/queries.py",
+        "start": {
+          "line": 90,
+          "col": 31,
+          "offset": 3325
+        },
+        "end": {
+          "line": 90,
+          "col": 42,
+          "offset": 3336
+        },
+        "extra": {
+          "message": "sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged. This means that the usual SQL injection protections are not applied and this function is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy operators (such as `or_()`, `and_()`, etc.) to construct SQL.",
+          "metadata": {
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            ],
+            "category": "security",
+            "technology": [
+              "sqlalchemy"
+            ],
+            "confidence": "MEDIUM",
+            "references": [
+              "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "SQL Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+            "shortlink": "https://sg.run/yP1O"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 22,
+          "col": 10,
+          "offset": 597
+        },
+        "end": {
+          "line": 22,
+          "col": 48,
+          "offset": 635
+        },
+        "extra": {
+          "message": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+          "metadata": {
+            "cwe": [
+              "CWE-939: Improper Authorization in Handler for Custom URL Scheme"
+            ],
+            "owasp": "A01:2017 - Injection",
+            "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163",
+            "bandit-code": "B310",
+            "asvs": {
+              "control_id": "5.2.4 Dynamic Code Execution Features",
+              "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+              "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+              "version": "4"
+            },
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "references": [
+              "https://cwe.mitre.org/data/definitions/939.html"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Improper Authorization"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+            "shortlink": "https://sg.run/dKZZ"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 35,
+          "col": 10,
+          "offset": 1097
+        },
+        "end": {
+          "line": 35,
+          "col": 56,
+          "offset": 1143
+        },
+        "extra": {
+          "message": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+          "metadata": {
+            "cwe": [
+              "CWE-939: Improper Authorization in Handler for Custom URL Scheme"
+            ],
+            "owasp": "A01:2017 - Injection",
+            "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163",
+            "bandit-code": "B310",
+            "asvs": {
+              "control_id": "5.2.4 Dynamic Code Execution Features",
+              "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+              "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+              "version": "4"
+            },
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "references": [
+              "https://cwe.mitre.org/data/definitions/939.html"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Improper Authorization"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+            "shortlink": "https://sg.run/dKZZ"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 47,
+          "col": 40,
+          "offset": 1587
+        },
+        "end": {
+          "line": 47,
+          "col": 44,
+          "offset": 1591
+        },
+        "extra": {
+          "message": "Found 'subprocess' function 'Popen' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+          "fix": "False",
+          "metadata": {
+            "source-rule-url": "https://bandit.readthedocs.io/en/latest/plugins/b602_subprocess_popen_with_shell_equals_true.html",
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+            ],
+            "references": [
+              "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+              "https://docs.python.org/3/library/subprocess.html"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "secure default"
+            ],
+            "likelihood": "HIGH",
+            "impact": "LOW",
+            "confidence": "MEDIUM",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Command Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+            "shortlink": "https://sg.run/J92w"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 66,
+          "col": 12,
+          "offset": 2199
+        },
+        "end": {
+          "line": 66,
+          "col": 37,
+          "offset": 2224
+        },
+        "extra": {
+          "message": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+          "metadata": {
+            "owasp": [
+              "A08:2017 - Insecure Deserialization",
+              "A08:2021 - Software and Data Integrity Failures",
+              "A08:2025 - Software or Data Integrity Failures"
+            ],
+            "cwe": [
+              "CWE-502: Deserialization of Untrusted Data"
+            ],
+            "references": [
+              "https://docs.python.org/3/library/pickle.html"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "MEDIUM",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Insecure Deserialization "
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.deserialization.pickle.avoid-pickle",
+            "shortlink": "https://sg.run/OPwB"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 76,
+          "col": 40,
+          "offset": 2502
+        },
+        "end": {
+          "line": 76,
+          "col": 44,
+          "offset": 2506
+        },
+        "extra": {
+          "message": "Found 'subprocess' function 'Popen' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+          "fix": "False",
+          "metadata": {
+            "source-rule-url": "https://bandit.readthedocs.io/en/latest/plugins/b602_subprocess_popen_with_shell_equals_true.html",
+            "owasp": [
+              "A01:2017 - Injection",
+              "A03:2021 - Injection",
+              "A05:2025 - Injection"
+            ],
+            "cwe": [
+              "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+            ],
+            "references": [
+              "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+              "https://docs.python.org/3/library/subprocess.html"
+            ],
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "cwe2022-top25": true,
+            "cwe2021-top25": true,
+            "subcategory": [
+              "secure default"
+            ],
+            "likelihood": "HIGH",
+            "impact": "LOW",
+            "confidence": "MEDIUM",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Command Injection"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+            "shortlink": "https://sg.run/J92w"
+          },
+          "severity": "ERROR",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 110,
+          "col": 10,
+          "offset": 3888
+        },
+        "end": {
+          "line": 110,
+          "col": 48,
+          "offset": 3926
+        },
+        "extra": {
+          "message": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+          "metadata": {
+            "cwe": [
+              "CWE-939: Improper Authorization in Handler for Custom URL Scheme"
+            ],
+            "owasp": "A01:2017 - Injection",
+            "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163",
+            "bandit-code": "B310",
+            "asvs": {
+              "control_id": "5.2.4 Dynamic Code Execution Features",
+              "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+              "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+              "version": "4"
+            },
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "references": [
+              "https://cwe.mitre.org/data/definitions/939.html"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Improper Authorization"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+            "shortlink": "https://sg.run/dKZZ"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      },
+      {
+        "check_id": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+        "path": "bench_app/services/network_service.py",
+        "start": {
+          "line": 126,
+          "col": 10,
+          "offset": 4463
+        },
+        "end": {
+          "line": 126,
+          "col": 55,
+          "offset": 4508
+        },
+        "extra": {
+          "message": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+          "metadata": {
+            "cwe": [
+              "CWE-939: Improper Authorization in Handler for Custom URL Scheme"
+            ],
+            "owasp": "A01:2017 - Injection",
+            "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163",
+            "bandit-code": "B310",
+            "asvs": {
+              "control_id": "5.2.4 Dynamic Code Execution Features",
+              "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+              "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+              "version": "4"
+            },
+            "category": "security",
+            "technology": [
+              "python"
+            ],
+            "references": [
+              "https://cwe.mitre.org/data/definitions/939.html"
+            ],
+            "subcategory": [
+              "audit"
+            ],
+            "likelihood": "LOW",
+            "impact": "LOW",
+            "confidence": "LOW",
+            "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+            "vulnerability_class": [
+              "Improper Authorization"
+            ],
+            "source": "https://semgrep.dev/r/python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+            "shortlink": "https://sg.run/dKZZ"
+          },
+          "severity": "WARNING",
+          "fingerprint": "requires login",
+          "lines": "requires login",
+          "validation_state": "NO_VALIDATOR",
+          "engine_kind": "OSS"
+        }
+      }
+    ],
+    "errors": [],
+    "paths": {
+      "scanned": [
+        "bench_app/__init__.py",
+        "bench_app/app.py",
+        "bench_app/config.py",
+        "bench_app/database/__init__.py",
+        "bench_app/database/connection.py",
+        "bench_app/database/queries.py",
+        "bench_app/services/__init__.py",
+        "bench_app/services/auth_service.py",
+        "bench_app/services/network_service.py",
+        "bench_app/utils/__init__.py",
+        "bench_app/utils/file_handler.py",
+        "bench_app/utils/validators.py"
+      ]
+    },
+    "time": {
+      "rules": [],
+      "rules_parse_time": 0.45580601692199707,
+      "profiling_times": {
+        "config_time": 2.0227839946746826,
+        "core_time": 1.2102162837982178,
+        "ignores_time": 0.002124786376953125,
+        "total_time": 3.2442867755889893
+      },
+      "parsing_time": {
+        "total_time": 0.0460205078125,
+        "per_file_time": {
+          "mean": 0.0003310827900179856,
+          "std_dev": 1.4910539969902812e-6
+        },
+        "very_slow_stats": {
+          "time_ratio": 0.0,
+          "count_ratio": 0.0
+        },
+        "very_slow_files": []
+      },
+      "scanning_time": {
+        "total_time": 0.6748173236846924,
+        "per_file_time": {
+          "mean": 0.01874492565790812,
+          "std_dev": 0.0012525414986169399
+        },
+        "very_slow_stats": {
+          "time_ratio": 0.0,
+          "count_ratio": 0.0
+        },
+        "very_slow_files": []
+      },
+      "matching_time": {
+        "total_time": 0.16941547393798828,
+        "per_file_and_rule_time": {
+          "mean": 0.0012188163592661027,
+          "std_dev": 3.7608980747814085e-6
+        },
+        "very_slow_stats": {
+          "time_ratio": 0.0,
+          "count_ratio": 0.0
+        },
+        "very_slow_rules_on_files": []
+      },
+      "tainting_time": {
+        "total_time": 0.05555295944213867,
+        "per_def_and_rule_time": {
+          "mean": 0.0002608120161602755,
+          "std_dev": 3.385206997852275e-7
+        },
+        "very_slow_stats": {
+          "time_ratio": 0.0,
+          "count_ratio": 0.0
+        },
+        "very_slow_rules_on_defs": []
+      },
+      "fixpoint_timeouts": [],
+      "prefiltering": {
+        "project_level_time": 0.0,
+        "file_level_time": 0.0,
+        "rules_with_project_prefilters_ratio": 0.0,
+        "rules_with_file_prefilters_ratio": 0.990714469950993,
+        "rules_selected_ratio": 0.036884188805777665,
+        "rules_matched_ratio": 0.036884188805777665
+      },
+      "targets": [],
+      "total_bytes": 0,
+      "max_memory_bytes": 812837248
+    },
+    "engine_requested": "OSS",
+    "skipped_rules": [],
+    "profiling_results": []
+  }
+}

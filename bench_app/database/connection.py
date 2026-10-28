@@ -36,3 +36,4 @@ def init_db():
         session.add(Product(name="Gadget B", price=250, category="gadgets"))
         session.commit()
     session.close()
+
