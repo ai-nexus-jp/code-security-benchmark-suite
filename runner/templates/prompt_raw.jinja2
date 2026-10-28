@@ -1,0 +1,29 @@
+You are an expert application security engineer and code auditor.
+Review the following complete codebase for security vulnerabilities.
+
+Below is the complete source code of the application. Each file is presented with exact line numbers.
+
+{% for file in files %}
+================================================================================
+File: {{ file.path }}
+================================================================================
+{{ file.numbered_content }}
+
+{% endfor %}
+
+TASK:
+Analyze the code and identify all security vulnerabilities (e.g. SQL Injection, Path Traversal, SSRF, Command Injection, Insecure Deserialization, Broken Access Control / IDOR, Template Injection, Hardcoded Secrets, etc.).
+Carefully evaluate whether security controls (validation, quoting, safe APIs, decorators) are effective or if there is a real vulnerability.
+
+OUTPUT FORMAT:
+Output MUST be a single, valid JSON array of objects conforming to this schema, with no markdown code fences or conversational text:
+[
+  {
+    "file": "bench_app/path/to/file.py",
+    "line": 42,
+    "vuln_type": "SQL Injection",
+    "severity": "HIGH",
+    "confidence": "HIGH",
+    "description": "Explanation of vulnerability"
+  }
+]

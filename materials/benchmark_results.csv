@@ -1,0 +1,31 @@
+case_id,category,ground_truth,bandit_result,semgrep_result,raw_llm_result,mantis_result,notes
+VULN-001,Path Traversal,VULN,FN,FN,TP,TP,os.path.join absolute path trap discarding base directory
+VULN-002,Path Traversal,VULN,FN,FN,TP,FN,urllib.parse.unquote double decoding bypass
+VULN-003,Path Traversal,VULN,FN,FN,TP,TP,zipfile.extractall Zip Slip archive extraction
+VULN-004,Path Traversal,VULN,FN,FN,TP,TP,Insecure path prefix startswith check allowing boundary escape
+VULN-005,SQL Injection,VULN,FN,TP,TP,TP,Dynamic ORDER BY clause direct f-string concatenation
+VULN-006,SQL Injection,VULN,FN,TP,TP,TP,Dynamic table name switching using f-string interpolation
+VULN-007,SQL Injection,VULN,FN,TP,TP,TP,SQLAlchemy text() clause inner string format interpolation
+VULN-008,SQL Injection,VULN,FN,TP,TP,TP,Unescaped LIKE search clause string formatting
+VULN-009,SSRF,VULN,TP,TP,TP,TP,urllib.request.urlopen without scheme validation
+VULN-010,SSRF,VULN,TP,TP,TP,TP,SSRF missing private IP and loopback / metadata verification
+VULN-011,Command Injection,VULN,TP,TP,TP,TP,subprocess.Popen shell=True with whitespace token joining
+VULN-012,Command Injection,VULN,TP,FN,TP,TP,os.system arbitrary command execution via metacharacters
+VULN-013,IDOR,VULN,FN,FN,FN,TP,Path parameter user_id queried without session ownership check
+VULN-014,Insecure Deserialization,VULN,TP,TP,TP,TP,pickle.loads execution on untrusted payload
+VULN-015,Template Injection,VULN,FN,TP,TP,TP,Jinja2 render_template_string applied to unvalidated user input
+SAFE-001,SQL Injection,SAFE,TN,FP,FP,TN,Dynamic ORDER BY validated via Enum whitelist in validators.py
+SAFE-002,SQL Injection,SAFE,TN,FP,FP,TN,Explicit int() cast performed prior to f-string interpolation
+SAFE-003,Path Traversal,SAFE,TN,TN,TN,TN,Strict boundary exit check via Path.resolve().relative_to(BASE_DIR)
+SAFE-004,Path Traversal,SAFE,TN,TN,TN,TN,os.path.basename used to forcefully strip directory traversal
+SAFE-005,Command Injection,SAFE,FP,FP,FP,TN,Arguments properly escaped with shlex.quote()
+SAFE-006,Command Injection,SAFE,TN,TN,TN,TN,subprocess.run list format invocation with shell=False
+SAFE-007,SSRF,SAFE,FP,FP,TN,TN,Resolved hostname IP checked and RFC 1918 private ranges rejected
+SAFE-008,SSRF,SAFE,FP,FP,TN,TN,Strict exact-match against pre-defined allowed domain whitelist
+SAFE-009,Hardcoded Secret,SAFE,TN,TN,FP,TN,Explicit mock/dummy API token inside test fixtures
+SAFE-010,Weak Cryptography,SAFE,TN,TN,FP,TN,random.randint used strictly for non-crypto UI pagination delay
+SAFE-011,IDOR,SAFE,TN,TN,FP,TN,Authorization enforced upstream by @require_ownership decorator
+SAFE-012,Insecure Temp File,SAFE,TN,TN,TN,TN,tempfile.NamedTemporaryFile used with safe default permissions
+SAFE-013,Open Redirect,SAFE,FP,FP,FP,TN,urllib.parse.urlparse netloc validated strictly against internal hosts
+SAFE-014,ReDoS,SAFE,TN,TN,TN,TN,Strict fixed-length regex without catastrophic backtracking
+SAFE-015,SQL Injection,SAFE,TN,TN,TN,TN,Dictionary lookup of static constant SQL strings with zero interpolation

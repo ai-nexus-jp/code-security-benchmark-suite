@@ -1,0 +1,242 @@
+[
+  {
+    "id": "VULN-001",
+    "is_vulnerable": true,
+    "category": "Path Traversal",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 17,
+    "description": "os.path.join absolute path trap discarding base directory"
+  },
+  {
+    "id": "VULN-002",
+    "is_vulnerable": true,
+    "category": "Path Traversal",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 32,
+    "description": "urllib.parse.unquote double decoding bypass"
+  },
+  {
+    "id": "VULN-003",
+    "is_vulnerable": true,
+    "category": "Path Traversal",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 44,
+    "description": "zipfile.extractall Zip Slip archive extraction"
+  },
+  {
+    "id": "VULN-004",
+    "is_vulnerable": true,
+    "category": "Path Traversal",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 55,
+    "description": "Insecure path prefix startswith check allowing boundary escape"
+  },
+  {
+    "id": "VULN-005",
+    "is_vulnerable": true,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 13,
+    "description": "Dynamic ORDER BY clause direct f-string concatenation"
+  },
+  {
+    "id": "VULN-006",
+    "is_vulnerable": true,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 27,
+    "description": "Dynamic table name switching using f-string interpolation"
+  },
+  {
+    "id": "VULN-007",
+    "is_vulnerable": true,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 41,
+    "description": "SQLAlchemy text() clause inner string format interpolation"
+  },
+  {
+    "id": "VULN-008",
+    "is_vulnerable": true,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 56,
+    "description": "Unescaped LIKE search clause string formatting"
+  },
+  {
+    "id": "VULN-009",
+    "is_vulnerable": true,
+    "category": "SSRF",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 20,
+    "description": "urllib.request.urlopen without scheme validation"
+  },
+  {
+    "id": "VULN-010",
+    "is_vulnerable": true,
+    "category": "SSRF",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 34,
+    "description": "SSRF missing private IP and loopback / metadata verification"
+  },
+  {
+    "id": "VULN-011",
+    "is_vulnerable": true,
+    "category": "Command Injection",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 46,
+    "description": "subprocess.Popen shell=True with whitespace token joining"
+  },
+  {
+    "id": "VULN-012",
+    "is_vulnerable": true,
+    "category": "Command Injection",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 57,
+    "description": "os.system arbitrary command execution via metacharacters"
+  },
+  {
+    "id": "VULN-013",
+    "is_vulnerable": true,
+    "category": "IDOR",
+    "target_file": "bench_app/services/auth_service.py",
+    "target_line": 15,
+    "description": "Path parameter user_id queried without session ownership check"
+  },
+  {
+    "id": "VULN-014",
+    "is_vulnerable": true,
+    "category": "Insecure Deserialization",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 65,
+    "description": "pickle.loads execution on untrusted payload"
+  },
+  {
+    "id": "VULN-015",
+    "is_vulnerable": true,
+    "category": "Template Injection",
+    "target_file": "bench_app/app.py",
+    "target_line": 32,
+    "description": "Jinja2 render_template_string applied to unvalidated user input"
+  },
+  {
+    "id": "SAFE-001",
+    "is_vulnerable": false,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 72,
+    "description": "Dynamic ORDER BY validated via Enum whitelist in validators.py"
+  },
+  {
+    "id": "SAFE-002",
+    "is_vulnerable": false,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 88,
+    "description": "Explicit int() cast performed prior to f-string interpolation"
+  },
+  {
+    "id": "SAFE-003",
+    "is_vulnerable": false,
+    "category": "Path Traversal",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 67,
+    "description": "Strict boundary exit check via Path.resolve().relative_to(BASE_DIR)"
+  },
+  {
+    "id": "SAFE-004",
+    "is_vulnerable": false,
+    "category": "Path Traversal",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 78,
+    "description": "os.path.basename used to forcefully strip directory traversal"
+  },
+  {
+    "id": "SAFE-005",
+    "is_vulnerable": false,
+    "category": "Command Injection",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 74,
+    "description": "Arguments properly escaped with shlex.quote()"
+  },
+  {
+    "id": "SAFE-006",
+    "is_vulnerable": false,
+    "category": "Command Injection",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 86,
+    "description": "subprocess.run list format invocation with shell=False"
+  },
+  {
+    "id": "SAFE-007",
+    "is_vulnerable": false,
+    "category": "SSRF",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 108,
+    "description": "Resolved hostname IP checked and RFC 1918 private ranges rejected"
+  },
+  {
+    "id": "SAFE-008",
+    "is_vulnerable": false,
+    "category": "SSRF",
+    "target_file": "bench_app/services/network_service.py",
+    "target_line": 125,
+    "description": "Strict exact-match against pre-defined allowed domain whitelist"
+  },
+  {
+    "id": "SAFE-009",
+    "is_vulnerable": false,
+    "category": "Hardcoded Secret",
+    "target_file": "bench_app/tests/test_fixtures.py",
+    "target_line": 8,
+    "description": "Explicit mock/dummy API token inside test fixtures"
+  },
+  {
+    "id": "SAFE-010",
+    "is_vulnerable": false,
+    "category": "Weak Cryptography",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 89,
+    "description": "random.randint used strictly for non-crypto UI pagination delay"
+  },
+  {
+    "id": "SAFE-011",
+    "is_vulnerable": false,
+    "category": "IDOR",
+    "target_file": "bench_app/services/auth_service.py",
+    "target_line": 48,
+    "description": "Authorization enforced upstream by @require_ownership decorator"
+  },
+  {
+    "id": "SAFE-012",
+    "is_vulnerable": false,
+    "category": "Insecure Temp File",
+    "target_file": "bench_app/utils/file_handler.py",
+    "target_line": 98,
+    "description": "tempfile.NamedTemporaryFile used with safe default permissions"
+  },
+  {
+    "id": "SAFE-013",
+    "is_vulnerable": false,
+    "category": "Open Redirect",
+    "target_file": "bench_app/app.py",
+    "target_line": 50,
+    "description": "urllib.parse.urlparse netloc validated strictly against internal hosts"
+  },
+  {
+    "id": "SAFE-014",
+    "is_vulnerable": false,
+    "category": "ReDoS",
+    "target_file": "bench_app/utils/validators.py",
+    "target_line": 36,
+    "description": "Strict fixed-length regex without catastrophic backtracking"
+  },
+  {
+    "id": "SAFE-015",
+    "is_vulnerable": false,
+    "category": "SQL Injection",
+    "target_file": "bench_app/database/queries.py",
+    "target_line": 111,
+    "description": "Dictionary lookup of static constant SQL strings with zero interpolation"
+  }
+]

@@ -1,0 +1,18 @@
+# Web Application & ORM Dependencies
+flask>=3.0.0
+sqlalchemy>=2.0.0
+requests>=2.31.0
+jinja2>=3.1.0
+
+# Testing & Utilities
+pytest>=8.0.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# Static Analysis Scanners
+bandit>=1.7.8
+semgrep>=1.65.0
+
+# LLM Providers
+openai>=1.14.0
+google-generativeai>=0.8.0
