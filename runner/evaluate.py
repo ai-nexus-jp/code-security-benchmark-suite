@@ -164,6 +164,8 @@ def generate_reports():
         "- **Precision (適合率)**: `TP / (TP + FP)` (警告したもののうち、本当に脆弱だった割合)",
         "- **F1-Score**: PrecisionとRecallの調和平均",
         "",
+        "> ※ 手法④ Mantis式は、Google Mantis公式仕様（`skills/mantis-summarize` によるAST要約 ＋ `skills/mantis-reproduce` による動的PoC検証）に準拠したパイプライン実装による実測値です。",
+        "",
         "詳細な設問別判定結果は `materials/benchmark_results.csv` を参照してください。"
     ])
 

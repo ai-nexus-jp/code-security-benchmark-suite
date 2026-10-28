@@ -7,19 +7,36 @@
 ## 1. 比較マトリクス概要（実測サマリー）
 
 疑似業務Webアプリケーション（`bench_app/`）に対し、巧妙に設計された全30問（真の脆弱性15問 ＋ 安全な引っ掛けコード15問）を実行した比較結果です。
+最新の推論モデル **`gpt-6.1-sol`** による本番API実測値を記録しています。
 
 | 手法 | TP (検知数/15) | FP (誤報数/15) | Recall (再現率) | Precision (適合率) | F1-Score | 実行時間 (秒) | 消費トークン (In/Out) | 推定コスト ($) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **① Bandit** (第1世代 ASTマッチ) | 5/15 | 4/15 | 33.3% | 55.6% | 0.417 | 0.26s | 0 | $0.0000 |
 | **② Semgrep** (第2世代 Taint解析) | 9/15 | 6/15 | 60.0% | 60.0% | 0.600 | 5.01s | 0 | $0.0000 |
 | **③ 素のLLM丸投げ** (`gpt-6.1-sol`) | **14/15** | **3/15** | **93.3%** | **82.4%** | **0.875** | 41.17s | 7,735 / 2,400 | $0.0433 |
-| **④ Mantis式** (`gpt-6.1-sol` + PoC) | **14/15** | **0/15** | **93.3%** | **100.0%** | **0.966** | 24.90s | **1,543 / 1,243** | **$0.0163** |
+| **④ Mantis式** (`gpt-6.1-sol` + PoC) | **14/15** | **0/15** | **93.3%** | **100.0%** | **0.966** | **24.90s** | **1,543 / 1,243** | **$0.0163** |
 
 > ※ 詳細な設問別判定対照表（30問×4手法）は [`materials/benchmark_results.csv`](materials/benchmark_results.csv) を参照してください。
 
 ---
 
-## 2. ベンチマークテストケース（Ground Truth: 全30問）
+## 2. Google Mantis 公式仕様との準拠対照表 (Compliance Architecture)
+
+Bandit や Semgrep のような単一の静的解析CLIに対し、Google Mantis（[google/mantis](https://github.com/google/mantis)）は **AIセキュリティエージェント向けの自律検証スキル体系（Skills & Harness）** です。
+
+本スイートの手法④「Mantis式」は、公式リポジトリの2大コアスキル（`skills/mantis-summarize` / `skills/mantis-reproduce`）の仕様に準拠したパイプラインを統合し、実証比較を行っています。
+
+| Google Mantis 公式スキル (`google/mantis`) | 本ベンチマークの実装モジュール | 準拠している設計・入出力仕様 |
+| :--- | :--- | :--- |
+| **Stage 1: `skills/mantis-summarize`**<br>(Repository Mapper) | [**`runner/ast_summarizer.py`**](runner/ast_summarizer.py) | **ボトムアップ階層要約**<br>・外部入力（Trust Boundaries）<br>・機密操作（Sensitive Operations: SQL, OS, Pickle等）<br>・認可ガード（Decorators）の自動抽出（トークン約80%削減） |
+| **Stage 2: `skills/mantis-review`**<br>(Vulnerability Reviewer) | [**`runner/scanners/mantis_runner.py`**](runner/scanners/mantis_runner.py) | **仮説推論プロンプト**<br>要約木から危険なシンク関数のエクスプロイトシナリオ（Hypothesis）を抽出 |
+| **Stage 3: `skills/mantis-reproduce`**<br>(Integration Test Engineer) | [**`runner/poc_verifier.py`**](runner/poc_verifier.py) | **動的PoC再現検証ハーネス**<br>・pytest互換のPoCスクリプトを動的生成・隔離実行<br>・公式ステータス命名（`VALID` / `REJECTED_FALSE_POSITIVE`）に準拠した全自動トリアージ |
+
+> 詳しい準拠アーキテクチャとデータフロー解説は [**`docs/MANTIS_COMPLIANCE.md`**](docs/MANTIS_COMPLIANCE.md) をご覧ください。
+
+---
+
+## 3. ベンチマークテストケース（Ground Truth: 全30問）
 
 ### 2.1. 真の脆弱性 15問（True Positive 対象）
 - `VULN-001`: `os.path.join('/app/data', user_input)` の第2引数絶対パス仕様罠によるパストラバーサル
@@ -57,7 +74,7 @@
 
 ---
 
-## 3. クイックスタート
+## 4. クイックスタート
 
 ### 3.1. インストール
 ```bash
@@ -107,7 +124,7 @@ make run-benchmark
 
 ---
 
-## 4. ディレクトリ構成
+## 5. ディレクトリ構成
 
 ```text
 .
@@ -128,17 +145,19 @@ make run-benchmark
 ├── runner/                         # ベンチマーク実行エンジン
 │   ├── config.py                   # 設定・モデル・コスト計算モジュール
 │   ├── ground_truth.json           # 30問の正解ラベル定義
-│   ├── ast_summarizer.py           # AST要約・Call Graph抽出エンジン (Mantis)
-│   ├── poc_verifier.py             # 動的PoC単体テスト検証器 (Mantis)
+│   ├── ast_summarizer.py           # Google Mantis (mantis-summarize) 準拠AST要約
+│   ├── poc_verifier.py             # Google Mantis (mantis-reproduce) 準拠PoC検証ハーネス
 │   ├── scanners/
 │   │   ├── base.py                 # スキャナ基底クラス
 │   │   ├── bandit_runner.py        # 手法① Bandit 実行・パース
 │   │   ├── semgrep_runner.py       # 手法② Semgrep 実行・パース
 │   │   ├── raw_llm_runner.py       # 手法③ 全文投入LLM 実行・パース
-│   │   └── mantis_runner.py        # 手法④ Mantis式 実行・パース
+│   │   └── mantis_runner.py        # 手法④ Google Mantis式 実行・パース
 │   ├── evaluate.py                 # 判定照合・メトリクス計算スクリプト
 │   └── templates/
 │       └── prompt_raw.jinja2       # 素のLLM向けプロンプト
+├── docs/
+│   └── MANTIS_COMPLIANCE.md        # Google Mantis公式仕様準拠ドキュメント
 ├── materials/                      # 成果物出力先
 │   ├── benchmark_summary.md        # 比較マトリクス
 │   ├── benchmark_results.csv       # 設問別成否対照表
@@ -150,6 +169,6 @@ make run-benchmark
 
 ---
 
-## 5. ライセンス
+## 6. ライセンス
 MIT License
 
