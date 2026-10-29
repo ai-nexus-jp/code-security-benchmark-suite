@@ -172,9 +172,19 @@ def generate_reports():
     with open(summary_path, "w", encoding="utf-8") as f:
         f.write("\n".join(md_lines))
 
-    print("[Evaluate] Evaluation complete!")
-    print(f"Generated: {summary_path}")
-    print(f"Generated: {csv_path}")
+    print("\n" + "="*85)
+    print("           静的解析・LLM脆弱性スキャン比較ベンチマーク集計結果 (30問)")
+    print("="*85)
+    print(f"{'手法':<32} | {'TP':^5} | {'FP':^5} | {'Recall':^8} | {'Precision':^9} | {'F1':^5} | {'時間':^6} | {'コスト':^7}")
+    print("-" * 85)
+    for sc in scanners:
+        ev = evaluations[sc]
+        label = method_labels.get(sc, sc)
+        cost_str = f"${ev['estimated_cost_usd']:.4f}"
+        print(f"{label:<32} | {ev['tp']:^5} | {ev['fp']:^5} | {ev['recall']:>6.1f}% | {ev['precision']:>7.1f}% | {ev['f1']:^5.3f} | {ev['execution_time_seconds']:>5.2f}s | {cost_str:>7}")
+    print("="*85)
+    print(f"[*] レポートMarkdown: {summary_path}")
+    print(f"[*] 設問別詳細CSV:   {csv_path}\n")
 
 
 if __name__ == "__main__":

@@ -108,10 +108,16 @@ Respond strictly with the JSON array.
         confirmed_findings = []
         repro_logs = []
 
+        print("\n" + "="*80)
+        print(" [Google Mantis: Stage 3] mantis-reproduce (Dynamic Sandbox PoC Verification)")
+        print("="*80)
+
         for cand in candidates:
             c_file = cand.get("file", "")
             c_line = int(cand.get("line", 0))
             c_type = cand.get("vuln_type", "Vulnerability")
+
+            print(f"[*] PoC Verifier: Testing {Path(c_file).name}:{c_line:<3} [{c_type}] ...", end=" ")
 
             is_confirmed, log = self.verifier.verify_hypothesis(
                 file_path=c_file,
@@ -126,6 +132,7 @@ Respond strictly with the JSON array.
             })
 
             if is_confirmed:
+                print("\033[91m--> EXPLOIT CONFIRMED [VALID]\033[0m")
                 confirmed_findings.append(
                     Finding(
                         file=c_file,
@@ -136,6 +143,9 @@ Respond strictly with the JSON array.
                         description=f"Verified exploit: {cand.get('hypothesis', '')}"
                     )
                 )
+            else:
+                print("\033[92m--> ATTACK BLOCKED [REJECTED (Safe / False Positive)]\033[0m")
+        print("="*80 + "\n")
 
         phase3_elapsed = time.time() - phase3_start
         total_elapsed = time.time() - total_start
